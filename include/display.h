@@ -34,6 +34,6 @@
 void LCD_Init(void);
 void LCD_Clear(void);
 void LCD_Send(uint8_t dc, uint8_t data);
-void Delay(uint16_t delay);
+void Delay(int16_t delay);
 
 #endif

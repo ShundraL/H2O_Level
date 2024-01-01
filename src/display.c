@@ -41,22 +41,23 @@ uint16_t CMDodes[][4][7] =
 
 };
 
-void Delay(uint16_t delay)
+void Delay(int16_t delay)
 {
-  for (uint16_t i = delay; i >0 ; i--)
+  for (int16_t i = delay; i >0 ; i--)
   {
-   //  for (uint8_t k = 255; k >0 ; k--)
-   //  {
-          
-   //  }
+    for (uint8_t k = 255; k >0 ; k--)
+    {
+      asm volatile("nop\n\t");          
+    }
+   // asm volatile("nop\n\t");
   }
 };
 
 void LCD_Clear(void)
 {
-   for (uint8_t i = 0; i < 504; i++)
+   for (int16_t i = 0; i < LCD_CACHE_SIZE; i++)
    {
-      LCD_Send(DATA,0x0);
+      LCD_Send(DATA,0x00);
    }
    
 }
