@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <avr/pgmspace.h>
 #include "display.h"
 #include "main.h"
 #include "ports.h"
@@ -10,31 +11,27 @@ int main(void)
   PORTD &=~((1<<DSPL_RST));
   Delay(300);
   PORTD |=((1<<DSPL_RST));
+  Delay(300);
   LCD_Init();
   Delay(300);
   LCD_Clear();
-  Delay(2000);
+  
+  Delay(1000);
   
   // LCD_Send(CMD, (DISP_CONTR|(1<<BIT_E)));
   // LCD_Send(CMD, (DISP_CONTR));
-  int8_t k = 0;
-  int8_t row = 1;
-  int8_t column = 15;
-  LCD_Send(CMD,SET_X_ADDR+column);
+ 
+  LCD_Send(CMD,SET_X_ADDR);
   LCD_Send(CMD,SET_Y_ADDR);
-  
-  for (int16_t i = 0; i < sizeof(picture1); i++)
-  {
-    LCD_Send(DATA,picture1[i]);
-    k++;
-    if (k == 60)
-    {
-    LCD_Send(CMD,SET_X_ADDR+column);
-    LCD_Send(CMD,SET_Y_ADDR+row);
-    k = 0x0;
-    row++;
-    }
-  }
+  Send_string((char *)hello);
+  Delay(5000);
+  LCD_Clear();
+
+  LCD_Show_Img((uint8_t const *)picture1, (int16_t)sizeof(picture1), picture1_width, 1, 13);         
+  LCD_Send(CMD, 0x0C );  // LCD in normal mode.
+
+
+
   
   while (1)
   {
